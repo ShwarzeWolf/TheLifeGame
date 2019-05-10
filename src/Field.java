@@ -43,8 +43,48 @@ public class Field{
     public void makeNextMove(){
         this.previousField = new char[fieldHeight + 2][fieldWidth + 2];
         fillPreviousField();
+        calculateStep();
 
     };
+
+    private void calculateStep(){
+        for (int i = 1; i < fieldHeight + 1 ; ++i)
+            for (int j = 1; j < fieldWidth + 1; ++j) {
+                int numberOfLivingCeilsAround = calculateLivingCeils(i, j);
+                switch (numberOfLivingCeilsAround){
+                    case 2:
+                        field[i - 1][j - 1] = previousField[i][j];
+                        break;
+                    case 3:
+                        field[i - 1][j - 1] = 'x';
+                        break;
+                    default:
+                        field[i - 1][j - 1] = ' ';
+                        break;
+                }
+
+            }
+    }
+
+    private int calculateLivingCeils(int i, int j){
+        int counter = 0;
+
+        if (previousField[i][j] == 'x')
+            counter--;
+
+        i--;
+        j--;
+
+        for (int k = 0;  k < 3; ++k, ++i) {
+            for (int l = 0; l < 3; ++l, ++j)
+                if (previousField[i][j] == 'x')
+                    counter++;
+
+                j-= 3;
+        }
+
+        return counter;
+    }
 
     private void fillPreviousField(){
 
