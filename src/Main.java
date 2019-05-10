@@ -1,5 +1,11 @@
+
 public class Main {
     public static void main(String[] args) {
-        //here will a game start
+        Field field = new Field();
+        field.setInitialState(16, 10, 10);
+        field.drawField();
+        field.makeNextMove();
+        field.drawPreviousField();
+
     }
 }
